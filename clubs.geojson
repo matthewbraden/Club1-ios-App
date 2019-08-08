@@ -1,0 +1,50 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "USERCOUNT": 0,
+                "NAME": "Sizzle",
+                "ADDRESS": "25 Hess St S"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.877424,
+                    43.258244
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "USERCOUNT": 5,
+                "NAME": "Gown And Gavel",
+                "ADDRESS": "24 Hess St S"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.877837,
+                    43.258322
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "USERCOUNT": 3,
+                "NAME": "Modrn",
+                "ADDRESS": "15 Hess St S"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -79.877274,
+                    43.258533
+                ]
+            }
+        }
+    ]
+}
