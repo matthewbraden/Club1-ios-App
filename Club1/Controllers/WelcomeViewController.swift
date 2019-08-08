@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import Firebase
 
-class ViewController: UIViewController {
-
+class WelcomeViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        if Auth.auth().currentUser != nil {
+            performSegue(withIdentifier: "goToHome", sender: self)
+        }
     }
-
-
 }
 

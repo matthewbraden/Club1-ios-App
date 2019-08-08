@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>251152097492-he0bq713lcbrp6m4jfulceejls3hi6u8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.251152097492-he0bq713lcbrp6m4jfulceejls3hi6u8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCLjcoCU7wBp-W-0XPd4i76H7MEsSvYBCg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>251152097492</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.matthewbraden.Club1</string>
+	<key>PROJECT_ID</key>
+	<string>club1-fbe4e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>club1-fbe4e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:251152097492:ios:00300c0dc373657a</string>
+	<key>DATABASE_URL</key>
+	<string>https://club1-fbe4e.firebaseio.com</string>
+</dict>
+</plist>
