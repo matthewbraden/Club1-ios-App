@@ -17,6 +17,8 @@
 		F38792AF22F8F49A0051C398 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38792AE22F8F49A0051C398 /* RegisterViewController.swift */; };
 		F38792B122F8F7A60051C398 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38792B022F8F7A60051C398 /* HomeViewController.swift */; };
 		F38792B322F929E90051C398 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F38792B222F929E90051C398 /* Launch Screen.storyboard */; };
+		F38D4CD722FE390900FE0C63 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38D4CD622FE390900FE0C63 /* SearchTableViewController.swift */; };
+		F38D4CD922FE3F2500FE0C63 /* FavouritesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38D4CD822FE3F2500FE0C63 /* FavouritesTableViewController.swift */; };
 		F3C0712622FB9132009C69D9 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C0712522FB9132009C69D9 /* Mapbox.framework */; };
 		F3C0712722FB9132009C69D9 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3C0712522FB9132009C69D9 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3C0712B22FBAAE7009C69D9 /* Clubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0712A22FBAAE7009C69D9 /* Clubs.swift */; };
@@ -53,6 +55,8 @@
 		F38792AE22F8F49A0051C398 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		F38792B022F8F7A60051C398 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F38792B222F929E90051C398 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		F38D4CD622FE390900FE0C63 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		F38D4CD822FE3F2500FE0C63 /* FavouritesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesTableViewController.swift; sourceTree = "<group>"; };
 		F3C0712522FB9132009C69D9 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Mapbox.framework; sourceTree = "<group>"; };
 		F3C0712A22FBAAE7009C69D9 /* Clubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clubs.swift; sourceTree = "<group>"; };
 		F3FA284D22FA6F7200DB59A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -136,10 +140,12 @@
 			isa = PBXGroup;
 			children = (
 				F38792AC22F8F4760051C398 /* LoginViewController.swift */,
+				F38D4CD622FE390900FE0C63 /* SearchTableViewController.swift */,
 				F38792AE22F8F49A0051C398 /* RegisterViewController.swift */,
 				F387929822F8E7CF0051C398 /* WelcomeViewController.swift */,
 				F38792B022F8F7A60051C398 /* HomeViewController.swift */,
 				F387929622F8E7CF0051C398 /* AppDelegate.swift */,
+				F38D4CD822FE3F2500FE0C63 /* FavouritesTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -292,7 +298,9 @@
 				F38792B122F8F7A60051C398 /* HomeViewController.swift in Sources */,
 				F38792AD22F8F4760051C398 /* LoginViewController.swift in Sources */,
 				F387929922F8E7CF0051C398 /* WelcomeViewController.swift in Sources */,
+				F38D4CD722FE390900FE0C63 /* SearchTableViewController.swift in Sources */,
 				F387929722F8E7CF0051C398 /* AppDelegate.swift in Sources */,
+				F38D4CD922FE3F2500FE0C63 /* FavouritesTableViewController.swift in Sources */,
 				F38792AF22F8F49A0051C398 /* RegisterViewController.swift in Sources */,
 				F3C0712B22FBAAE7009C69D9 /* Clubs.swift in Sources */,
 			);

@@ -12,16 +12,20 @@ import CoreLocation
 import Mapbox
 import FirebaseDatabase
 
-class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate {
+class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate, UIToolbarDelegate {
     
     var coordinates : [Clubs] = [Clubs]()
     
     @IBOutlet weak var mapView: MGLMapView!
+
+    @IBOutlet weak var toolbar: UIToolbar!
     
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        toolbar.delegate = self
         
         // CLLocationManagerDelegate setup
         locationManager.delegate = self
@@ -43,6 +47,8 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         var databaseHandle : DatabaseHandle?
         clubDB = Database.database().reference()
         
+        
+        // MARK:- Retrieving the information about clubs from the database and adding an annotation
         databaseHandle = clubDB?.child("data/clubs").observe(.childAdded) {
             (snapshot) in
             let snapshotValue = snapshot.value as! Dictionary<String, Any>
@@ -77,6 +83,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         self.navigationItem.setHidesBackButton(true, animated: false)
     }
 
+    //    MARK :- Functionality for the logout button
     @IBAction func logoutButton(_ sender: UIBarButtonItem) {
         
         do {
@@ -88,6 +95,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         }
     }
     
+    //    Mark :- Method for setting up the user location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[locations.count - 1]
         if location.horizontalAccuracy > 0 {
@@ -103,7 +111,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         }
     }
     
-    // Method to add circlestyle layer to map
+    // MARK :- Method to add circlestyle layer to map
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
         
         let source = MGLVectorTileSource(identifier: "clubs-bars", configurationURL: URL(string: "mapbox://bradenm.1uvubbkp")!)
@@ -173,9 +181,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
 }
 
 
-
-
-
+//MARK :- New custom class for annotation view
 class CustomAnnotationView: MGLAnnotationView {
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -197,3 +203,4 @@ class CustomAnnotationView: MGLAnnotationView {
 //        layer.add(animation, forKey: "borderWidth")
 //    }
 }
+
