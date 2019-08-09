@@ -10,9 +10,11 @@ import UIKit
 import Firebase
 import CoreLocation
 import Mapbox
+import FirebaseDatabase
 
 class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate {
     
+    var coordinates : [Clubs] = [Clubs]()
     
     @IBOutlet weak var mapView: MGLMapView!
     
@@ -22,7 +24,6 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         super.viewDidLoad()
         
         // CLLocationManagerDelegate setup
-        
         locationManager.delegate = self
         
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -37,21 +38,40 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         mapView.showsUserLocation = true
         view.addSubview(mapView)
         
-//        let coordinates = [
-//            CLLocationCoordinate2D(latitude: 43.258244, longitude: -79.877424),
-//            CLLocationCoordinate2D(latitude: 43.258322, longitude: -79.877837),
-//            CLLocationCoordinate2D(latitude: 43.258533, longitude: -79.877274)
-//        ]
-//
-//        var pointAnnotations = [MGLPointAnnotation]()
-//        for coordinate in coordinates {
-//            let point = MGLPointAnnotation()
-//            point.coordinate = coordinate
-//            point.title = "\(coordinate.latitude), \(coordinate.longitude)"
-//            pointAnnotations.append(point)
-//        }
-//
-//        mapView.addAnnotations(pointAnnotations)
+//        Call the function that retrieves the datava
+        var clubDB : DatabaseReference?
+        var databaseHandle : DatabaseHandle?
+        clubDB = Database.database().reference()
+        
+        databaseHandle = clubDB?.child("data/clubs").observe(.childAdded) {
+            (snapshot) in
+            let snapshotValue = snapshot.value as! Dictionary<String, Any>
+            let address = snapshotValue["Address"]!
+            let latitude = snapshotValue["Latitude"]!
+            let longitude = snapshotValue["Longitude"]!
+            let name = snapshotValue["Name"]!
+            let userCount = snapshotValue["UserPopulation"]!
+            
+            let club = Clubs()
+            club.address = address as! String
+            club.latitude = latitude as! Double
+            club.longitude = longitude as! Double
+            club.name = name as! String
+            club.userPopulation = userCount as! Int
+            
+            var pointAnnotations = [MGLPointAnnotation]()
+           
+            let point = MGLPointAnnotation()
+            let coord = CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude)
+            point.coordinate = coord
+            point.title = "\(club.name), \(club.address)"
+            point.subtitle = "\(club.userPopulation) users are at \(club.name)"
+            pointAnnotations.append(point)
+        
+            self.mapView.addAnnotations(pointAnnotations)
+        }
+
+        
 
         // Removing the back state from the navbar
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -83,7 +103,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         }
     }
     
-    
+    // Method to add circlestyle layer to map
     func mapView(_ mapView: MGLMapView, didFinishLoading style: MGLStyle) {
         
         let source = MGLVectorTileSource(identifier: "clubs-bars", configurationURL: URL(string: "mapbox://bradenm.1uvubbkp")!)
@@ -99,60 +119,74 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         layer.circleOpacity = NSExpression(forConstantValue: 0.8)
         
         let zoomStops = [
-            10: NSExpression(format: "USUERCOUNT + 10"),
-            13: NSExpression(format: "USERCOUNT + 10")
+            10: NSExpression(format: "5"),
+            15: NSExpression(format: "15")
         ]
+        
+        // Stops based on age of tree in years.
+        let stops = [
+            0: UIColor(red: 1.00, green: 0.72, blue: 0.85, alpha: 1.0),
+            2: UIColor(red: 0.69, green: 0.48, blue: 0.73, alpha: 1.0),
+            4: UIColor(red: 0.61, green: 0.31, blue: 0.47, alpha: 1.0),
+            7: UIColor(red: 0.43, green: 0.20, blue: 0.38, alpha: 1.0),
+            16: UIColor(red: 0.33, green: 0.17, blue: 0.25, alpha: 1.0)
+        ]
+        
+        // Style the circle layer color based on the above stops dictionary.
+        layer.circleColor = NSExpression(format: "mgl_step:from:stops:(USERCOUNT, %@, %@)", UIColor(red: 1.0, green: 0.72, blue: 0.85, alpha: 1.0), stops)
 
         layer.circleRadius = NSExpression(format: "mgl_interpolate:withCurveType:parameters:stops:($zoomLevel, 'linear', nil, %@)", zoomStops)
         
         style.addLayer(layer)
     }
+
+//     This delegate method is where you tell the map to load a view for a specific annotation. To load a static MGLAnnotationImage, you would use `-mapView:imageForAnnotation:`.
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
+        // This example is only concerned with point annotations.
+        guard annotation is MGLPointAnnotation else {
+            return nil
+        }
+
+        // Use the point annotation’s longitude value (as a string) as the reuse identifier for its view.
+        let reuseIdentifier = "\(annotation.coordinate.longitude)"
+
+        // For better performance, always try to reuse existing annotations.
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
+
+        // If there’s no reusable annotation view available, initialize a new one.
+        if annotationView == nil {
+            annotationView = CustomAnnotationView(reuseIdentifier: reuseIdentifier)
+            annotationView!.bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
+
+            // Set the annotation view’s background color to a value determined by its longitude.
+            let hue = CGFloat(annotation.coordinate.latitude) / 100
+            annotationView!.backgroundColor = UIColor(hue: hue, saturation: 0.5, brightness: 1, alpha: 0)
+        }
+
+        return annotationView
+    }
+
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
+    }
     
-    // This delegate method is where you tell the map to load a view for a specific annotation. To load a static MGLAnnotationImage, you would use `-mapView:imageForAnnotation:`.
-//    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
-//        // This example is only concerned with point annotations.
-//        guard annotation is MGLPointAnnotation else {
-//            return nil
-//        }
-//
-//        // Use the point annotation’s longitude value (as a string) as the reuse identifier for its view.
-//        let reuseIdentifier = "\(annotation.coordinate.longitude)"
-//
-//        // For better performance, always try to reuse existing annotations.
-//        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
-//
-//        // If there’s no reusable annotation view available, initialize a new one.
-//        if annotationView == nil {
-//            annotationView = CustomAnnotationView(reuseIdentifier: reuseIdentifier)
-//            annotationView!.bounds = CGRect(x: 0, y: 0, width: 40, height: 40)
-//
-//            // Set the annotation view’s background color to a value determined by its longitude.
-//            let hue = CGFloat(annotation.coordinate.latitude) / 100
-//            annotationView!.backgroundColor = UIColor(hue: hue, saturation: 0.5, brightness: 1, alpha: 1)
-//        }
-//
-//        return annotationView
-//    }
-//
-//    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
-//        return true
-//    }
 }
 
 
 
 
 
-//class CustomAnnotationView: MGLAnnotationView {
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//        // Use CALayer’s corner radius to turn this view into a circle.
-//        layer.cornerRadius = bounds.width / 2
-//        layer.borderWidth = 2
-//        layer.borderColor = UIColor.white.cgColor
-//    }
-//
+class CustomAnnotationView: MGLAnnotationView {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        // Use CALayer’s corner radius to turn this view into a circle.
+        layer.cornerRadius = bounds.width / 2
+        layer.borderWidth = 0.0001
+        layer.borderColor = UIColor.white.cgColor
+
+    }
+
 //    override func setSelected(_ selected: Bool, animated: Bool) {
 //        super.setSelected(selected, animated: animated)
 //
@@ -162,4 +196,4 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
 //        layer.borderWidth = selected ? bounds.width / 4 : 2
 //        layer.add(animation, forKey: "borderWidth")
 //    }
-//}
+}

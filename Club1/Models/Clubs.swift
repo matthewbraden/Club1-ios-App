@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Clubs {
+class Clubs {
     var name : String = ""
     var address : String = ""
     var latitude : Double = 0

@@ -20,7 +20,7 @@ class WelcomeViewController: UIViewController {
         
 //        let clubDB = Database.database().reference().child("data/clubs")
 //
-//        let clubDictionary = ["Name" : "Sizzle", "Address" : "25 Hess St S", "Latitude" : 43.2582, "Longitude" : -79.8774, "UserPopulation" : 0] as [String : Any]
+//        let clubDictionary = ["Name" : "Gown and Gavel", "Address" : "24 Hess St S", "Latitude" : 43.258322, "Longitude" : -79.877837, "UserPopulation" : 0] as [String : Any]
 //
 //        clubDB.childByAutoId().setValue(clubDictionary) {
 //            (error, reference) in
