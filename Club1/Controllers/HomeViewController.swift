@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import CoreLocation
 import Mapbox
-import FirebaseDatabase
 
 class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate, UIToolbarDelegate {
     
