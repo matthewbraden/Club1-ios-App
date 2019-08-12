@@ -76,8 +76,6 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
             self.mapView.addAnnotations(pointAnnotations)
         }
 
-        
-
         // Removing the back state from the navbar
         self.navigationItem.setHidesBackButton(true, animated: false)
     }
