@@ -14,7 +14,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet var clubTableView: UITableView!
     
-    var clubsArray : [Clubs] = [Clubs]()
+    var clubsArray = [Clubs]()
+    var fileterdClubs = [Clubs]()
+    
+    let searchController = UISearchController(searchResultsController: nil)
     
     var latitude : Double = 0.0
     var longitude : Double = 0.0
@@ -23,10 +26,20 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // TableView setup
         clubTableView.delegate = self
         clubTableView.dataSource = self
         
         clubTableView.register(UINib(nibName: "SearchTableViewCell", bundle: nil), forCellReuseIdentifier: "customClubCell")
+        
+        // Search bar setup
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Clubs"
+        searchController.searchBar.tintColor = UIColor.white
+        searchController.searchBar.barStyle = .black
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
         // CLLocationManagerDelegate setup
         locationManager.delegate = self
@@ -44,6 +57,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     // MARK: - Table view data soure
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if isFiltering() {
+            return fileterdClubs.count
+        }
+        
         return clubsArray.count
     }
 
@@ -51,10 +68,18 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customClubCell", for: indexPath) as! SearchTableViewCell
         
-        cell.clubTitle.text = "\(clubsArray[indexPath.row].name), (\(clubsArray[indexPath.row].address))"
+        let club: Clubs
+        if isFiltering() {
+            club = fileterdClubs[indexPath.row]
+        }
+        else {
+            club = clubsArray[indexPath.row]
+        }
         
-        let clubLat = clubsArray[indexPath.row].latitude
-        let clubLong = clubsArray[indexPath.row].longitude
+        cell.clubTitle.text = club.name
+        
+        let clubLat = club.latitude
+        let clubLong = club.longitude
         let userLat = latitude
         let userLong = longitude
         
@@ -127,4 +152,30 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.clubTableView.reloadData()
         }
     }
+}
+
+// MARK: - Search bar delegate section
+extension SearchViewController : UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String) {
+        fileterdClubs = clubsArray.filter({
+            ( club : Clubs) -> Bool in
+            return club.name.lowercased().contains(searchText.lowercased())
+        })
+        
+        clubTableView.reloadData()
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+    
 }
