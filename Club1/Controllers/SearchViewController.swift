@@ -83,17 +83,26 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let userLat = latitude
         let userLong = longitude
         
-        let distanceToClub = distance(lat1: clubLat, lon1: clubLong, lat2: userLat, lon2: userLong)
+        clubsArray[indexPath.row].distance = distance(lat1: clubLat, lon1: clubLong, lat2: userLat, lon2: userLong)
+
         
-        if userLat == 0.0 && userLong == 0.0 {
+        if userLat == 0.0 || userLong == 0.0 {
             tableView.reloadData()
         }
         else {
-            let rounded = (distanceToClub * 100).rounded() / 100
+            let rounded = (clubsArray[indexPath.row].distance * 100).rounded() / 100
             cell.clubDescription.text = "\(clubsArray[indexPath.row].name) is only \(rounded)km away"
         }
         
         return cell
+    }
+    
+    // MARK: - Sort Array by distance to club
+    func sortArray() {
+        clubsArray = clubsArray.sorted() {
+            $0.distance < $1.distance
+        }
+        clubTableView.reloadData()
     }
     
     //    MARK: - Setting up the users location
@@ -103,6 +112,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             locationManager.stopUpdatingLocation()
             latitude = Double(location.coordinate.latitude)
             longitude = Double(location.coordinate.longitude)
+            for clubs in clubsArray {
+                clubs.distance = distance(lat1: latitude, lon1: longitude, lat2: clubs.latitude, lon2: clubs.longitude)
+            }
+            sortArray()
         }
     }
     
@@ -147,6 +160,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             club.longitude = longitude as! Double
             club.name = name as! String
             club.userPopulation = userCount as! Int
+            club.distance = self.distance(lat1: self.latitude, lon1: self.longitude, lat2: club.latitude, lon2: club.longitude)
             
             self.clubsArray.append(club)
             self.clubTableView.reloadData()

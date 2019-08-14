@@ -18,19 +18,19 @@ class WelcomeViewController: UIViewController {
             performSegue(withIdentifier: "goToHome", sender: self)
         }
         
-        //        let clubDB = Database.database().reference().child("data/clubs")
-        //
-        //        let clubDictionary = ["Name" : "Gown and Gavel", "Address" : "24 Hess St S", "Latitude" : 43.258322, "Longitude" : -79.877837, "UserPopulation" : 0] as [String : Any]
-        //
-        //        clubDB.childByAutoId().setValue(clubDictionary) {
-        //            (error, reference) in
-        //            if error != nil {
-        //                print(error!)
-        //            }
-        //            else {
-        //                print("Club has been added")
-        //            }
-        //        }
+//        let clubDB = Database.database().reference().child("data/clubs")
+//
+//        let clubDictionary = ["Name" : "Gown and Gavel", "Address" : "24 Hess St S", "Latitude" : 43.258322, "Longitude" : -79.877837, "UserPopulation" : 0] as [String : Any]
+//
+//        clubDB.childByAutoId().setValue(clubDictionary) {
+//            (error, reference) in
+//            if error != nil {
+//                print(error!)
+//            }
+//            else {
+//                print("Club has been added")
+//            }
+//        }
     }
 }
 

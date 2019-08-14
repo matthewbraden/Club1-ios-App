@@ -14,4 +14,5 @@ class Clubs {
     var latitude : Double = 0
     var longitude : Double = 0
     var userPopulation : Int = 0
+    var distance : Double = 0
 }
