@@ -189,15 +189,5 @@ class CustomAnnotationView: MGLAnnotationView {
         layer.borderColor = UIColor.white.cgColor
 
     }
-
-//    override func setSelected(_ selected: Bool, animated: Bool) {
-//        super.setSelected(selected, animated: animated)
-//
-//        // Animate the border width in/out, creating an iris effect.
-//        let animation = CABasicAnimation(keyPath: "borderWidth")
-//        animation.duration = 0.1
-//        layer.borderWidth = selected ? bounds.width / 4 : 2
-//        layer.add(animation, forKey: "borderWidth")
-//    }
 }
 

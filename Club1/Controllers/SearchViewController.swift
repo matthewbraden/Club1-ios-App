@@ -17,15 +17,21 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var clubsArray = [Clubs]()
     var fileterdClubs = [Clubs]()
     
+    var ref : DatabaseReference!
+    
     let searchController = UISearchController(searchResultsController: nil)
     
     var latitude : Double = 0.0
     var longitude : Double = 0.0
+    var clubID : String?
+    var clubName : String?
     
     let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ref = Database.database().reference()
         // TableView setup
         clubTableView.delegate = self
         clubTableView.dataSource = self
@@ -96,6 +102,26 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         return cell
     }
+
+    //    MARK : - Cell selection
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.clubID = clubsArray[indexPath.row].key
+        self.clubName = clubsArray[indexPath.row].name
+        if clubID == nil {
+            tableView.reloadData()
+        }
+        else {
+            performSegue(withIdentifier: "goToClubPage", sender: self)
+        }
+    }
+    
+    //    MARK : - Prepares the data for a segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToClubPage" {
+            let destinationVC = segue.destination as! ClubViewController
+            destinationVC.textPassedOverName = clubName
+        }
+    }
     
     // MARK: - Sort Array by distance to club
     func sortArray() {
@@ -148,6 +174,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         databaseHandle = clubDB?.child("data/clubs").observe(.childAdded) {
             (snapshot) in
             let snapshotValue = snapshot.value as! Dictionary<String, Any>
+            let snapshotKey = snapshot.key
             let address = snapshotValue["Address"]!
             let latitude = snapshotValue["Latitude"]!
             let longitude = snapshotValue["Longitude"]!
@@ -155,13 +182,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let userCount = snapshotValue["UserPopulation"]!
             
             let club = Clubs()
+            club.key = snapshotKey as! String
             club.address = address as! String
             club.latitude = latitude as! Double
             club.longitude = longitude as! Double
             club.name = name as! String
             club.userPopulation = userCount as! Int
             club.distance = self.distance(lat1: self.latitude, lon1: self.longitude, lat2: club.latitude, lon2: club.longitude)
-            
+            print(club.key)
             self.clubsArray.append(club)
             self.clubTableView.reloadData()
         }

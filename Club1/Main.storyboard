@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Drink" translatesAutoresizingMaskIntoConstraints="NO" id="rPP-az-tsn">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667.00000000000023"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="al0-OO-MWL">
                                 <rect key="frame" x="0.0" y="567" width="375" height="100"/>
@@ -393,11 +393,60 @@
                     </view>
                     <connections>
                         <outlet property="clubTableView" destination="qKO-7s-fpD" id="JoF-t1-djx"/>
+                        <segue destination="phH-Ov-QPn" kind="show" identifier="goToClubPage" id="L9a-qu-28K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5O-Hp-wpK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3600.8000000000002" y="421.43928035982015"/>
+        </scene>
+        <!--Club View Controller-->
+        <scene sceneID="xac-Ch-Udd">
+            <objects>
+                <viewController id="phH-Ov-QPn" customClass="ClubViewController" customModule="Club1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="acN-Dx-Fzv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Club" translatesAutoresizingMaskIntoConstraints="NO" id="LPg-oD-eTx">
+                                <rect key="frame" x="16" y="170" width="141" height="141"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOZ-sd-5Ai">
+                                <rect key="frame" x="181" y="170" width="158" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="usercount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZvG-p6-KQZ">
+                                <rect key="frame" x="181" y="212" width="158" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Club Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="oh7-au-ScV">
+                                <rect key="frame" x="16" y="97" width="343" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Lgr-iX-0eP"/>
+                    </view>
+                    <connections>
+                        <outlet property="clubAddress" destination="yOZ-sd-5Ai" id="ar3-g5-MHP"/>
+                        <outlet property="clubImage" destination="LPg-oD-eTx" id="H2Q-vI-lcH"/>
+                        <outlet property="clubName" destination="oh7-au-ScV" id="3nK-MJ-J9Y"/>
+                        <outlet property="userCount" destination="ZvG-p6-KQZ" id="ayT-TS-n8h"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j13-gT-Moq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4564" y="798.35082458770626"/>
         </scene>
         <!--Favourites-->
         <scene sceneID="1yq-Qi-Xxc">

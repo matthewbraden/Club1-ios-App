@@ -21,6 +21,7 @@
 		F38D4CE922FE53AE00FE0C63 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38D4CE822FE53AE00FE0C63 /* SearchViewController.swift */; };
 		F38D4CED2302030B00FE0C63 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F38D4CEC2302030B00FE0C63 /* Main.storyboard */; };
 		F38D4CEF2302033800FE0C63 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F38D4CEE2302033800FE0C63 /* Launch Screen.storyboard */; };
+		F3AACD242304A4D000C67BBF /* ClubViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AACD232304A4D000C67BBF /* ClubViewController.swift */; };
 		F3C0712622FB9132009C69D9 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C0712522FB9132009C69D9 /* Mapbox.framework */; };
 		F3C0712722FB9132009C69D9 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F3C0712522FB9132009C69D9 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F3C0712B22FBAAE7009C69D9 /* Clubs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0712A22FBAAE7009C69D9 /* Clubs.swift */; };
@@ -61,6 +62,7 @@
 		F38D4CE822FE53AE00FE0C63 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		F38D4CEC2302030B00FE0C63 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		F38D4CEE2302033800FE0C63 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		F3AACD232304A4D000C67BBF /* ClubViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubViewController.swift; sourceTree = "<group>"; };
 		F3C0712522FB9132009C69D9 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Mapbox.framework; sourceTree = "<group>"; };
 		F3C0712A22FBAAE7009C69D9 /* Clubs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clubs.swift; sourceTree = "<group>"; };
 		F3FA284D22FA6F7200DB59A9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				F38792AE22F8F49A0051C398 /* RegisterViewController.swift */,
 				F38792B022F8F7A60051C398 /* HomeViewController.swift */,
 				F38D4CE822FE53AE00FE0C63 /* SearchViewController.swift */,
+				F3AACD232304A4D000C67BBF /* ClubViewController.swift */,
 				F38D4CD822FE3F2500FE0C63 /* FavouritesTableViewController.swift */,
 			);
 			path = Controllers;
@@ -302,6 +305,7 @@
 				F387929722F8E7CF0051C398 /* AppDelegate.swift in Sources */,
 				F38D4CD922FE3F2500FE0C63 /* FavouritesTableViewController.swift in Sources */,
 				F38792AF22F8F49A0051C398 /* RegisterViewController.swift in Sources */,
+				F3AACD242304A4D000C67BBF /* ClubViewController.swift in Sources */,
 				F3C0712B22FBAAE7009C69D9 /* Clubs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

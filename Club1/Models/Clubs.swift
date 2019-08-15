@@ -9,6 +9,7 @@
 import Foundation
 
 class Clubs {
+    var key : String = ""
     var name : String = ""
     var address : String = ""
     var latitude : Double = 0
