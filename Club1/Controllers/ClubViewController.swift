@@ -25,6 +25,7 @@ class ClubViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = textPassedOverName!
         retrieveClub()
     }
  

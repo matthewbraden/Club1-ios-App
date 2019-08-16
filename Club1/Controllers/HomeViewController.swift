@@ -14,6 +14,7 @@ import Mapbox
 class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate, UIToolbarDelegate {
     
     var coordinates : [Clubs] = [Clubs]()
+    var clubName : String?
     
     @IBOutlet weak var mapView: MGLMapView!
 
@@ -41,40 +42,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         mapView.showsUserLocation = true
         view.addSubview(mapView)
         
-//        Call the function that retrieves the datava
-        var clubDB : DatabaseReference?
-        var databaseHandle : DatabaseHandle?
-        clubDB = Database.database().reference()
-        
-        
-        // MARK:- Retrieving the information about clubs from the database and adding an annotation
-        databaseHandle = clubDB?.child("data/clubs").observe(.childAdded) {
-            (snapshot) in
-            let snapshotValue = snapshot.value as! Dictionary<String, Any>
-            let address = snapshotValue["Address"]!
-            let latitude = snapshotValue["Latitude"]!
-            let longitude = snapshotValue["Longitude"]!
-            let name = snapshotValue["Name"]!
-            let userCount = snapshotValue["UserPopulation"]!
-            
-            let club = Clubs()
-            club.address = address as! String
-            club.latitude = latitude as! Double
-            club.longitude = longitude as! Double
-            club.name = name as! String
-            club.userPopulation = userCount as! Int
-            
-            var pointAnnotations = [MGLPointAnnotation]()
-           
-            let point = MGLPointAnnotation()
-            let coord = CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude)
-            point.coordinate = coord
-            point.title = "\(club.name), \(club.address)"
-            point.subtitle = "\(club.userPopulation) users are at \(club.name)"
-            pointAnnotations.append(point)
-        
-            self.mapView.addAnnotations(pointAnnotations)
-        }
+        retrieveClubsAndAddAnnotations()
 
         // Removing the back state from the navbar
         self.navigationItem.setHidesBackButton(true, animated: false)
@@ -170,9 +138,85 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
 
         return annotationView
     }
+    
+    
+    
+    
+    // MARK : - Setting up an information button for the annotation
+    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        let button = UIButton(type: .detailDisclosure)
+        button.tintColor = .blue
+        button.tag = 100
+        return button
+    }
 
+    // MARK : - Setting up what happens when its tapped
+    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+        switch control.tag {
+        case 100:
+            if let name = annotation.title {
+                clubName = name
+                performSegue(withIdentifier: "goToClubPage", sender: self)
+            }
+            break
+        default:
+            break
+        }
+    }
+    
+    //    MARK : - Prepares the data for a segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToClubPage" {
+            let destinationVC = segue.destination as! ClubViewController
+            destinationVC.textPassedOverName = clubName
+        }
+    }
+    
+    
+    
+    
+    
+    // MARK : - Allowd the mapview to show an annotation
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
+    }
+    
+    // MARK : - Retrieve clubs and add annotations to mapview function
+    func retrieveClubsAndAddAnnotations() {
+        //        Call the function that retrieves the datava
+        var clubDB : DatabaseReference?
+        var databaseHandle : DatabaseHandle?
+        clubDB = Database.database().reference()
+        
+        
+        // MARK:- Retrieving the information about clubs from the database and adding an annotation
+        databaseHandle = clubDB?.child("data/clubs").observe(.childAdded) {
+            (snapshot) in
+            let snapshotValue = snapshot.value as! Dictionary<String, Any>
+            let address = snapshotValue["Address"]!
+            let latitude = snapshotValue["Latitude"]!
+            let longitude = snapshotValue["Longitude"]!
+            let name = snapshotValue["Name"]!
+            let userCount = snapshotValue["UserPopulation"]!
+            
+            let club = Clubs()
+            club.address = address as! String
+            club.latitude = latitude as! Double
+            club.longitude = longitude as! Double
+            club.name = name as! String
+            club.userPopulation = userCount as! Int
+            
+            var pointAnnotations = [MGLPointAnnotation]()
+            
+            let point = MGLPointAnnotation()
+            let coord = CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude)
+            point.coordinate = coord
+            point.title = "\(club.name)"
+            point.subtitle = "\(club.userPopulation) users are at \(club.name)"
+            pointAnnotations.append(point)
+            
+            self.mapView.addAnnotations(pointAnnotations)
+        }
     }
     
 }

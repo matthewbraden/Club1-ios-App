@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Drink" translatesAutoresizingMaskIntoConstraints="NO" id="rPP-az-tsn">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667.00000000000023"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="al0-OO-MWL">
                                 <rect key="frame" x="0.0" y="567" width="375" height="100"/>
@@ -358,6 +358,7 @@
                     <connections>
                         <outlet property="mapView" destination="oHZ-Sv-PPd" id="uW0-sv-hzA"/>
                         <outlet property="toolbar" destination="yUT-PU-cA8" id="913-1g-y8i"/>
+                        <segue destination="phH-Ov-QPn" kind="show" identifier="goToClubPage" id="gua-BX-hNC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OCr-ie-z7m" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -398,7 +399,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5O-Hp-wpK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3600.8000000000002" y="421.43928035982015"/>
+            <point key="canvasLocation" x="3601" y="348"/>
         </scene>
         <!--Club View Controller-->
         <scene sceneID="xac-Ch-Udd">
@@ -446,7 +447,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j13-gT-Moq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4564" y="798.35082458770626"/>
+            <point key="canvasLocation" x="4559" y="776"/>
         </scene>
         <!--Favourites-->
         <scene sceneID="1yq-Qi-Xxc">
@@ -474,7 +475,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J9l-lj-lCY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3593" y="1232"/>
+            <point key="canvasLocation" x="3601" y="1232"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gP9-o8-nac">
@@ -504,6 +505,7 @@
         <image name="Drink" width="554.5" height="833"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="gua-BX-hNC"/>
         <segue reference="FWj-Ct-8FK"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
