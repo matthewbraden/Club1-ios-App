@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F1E16CC985166EB57EEE7CC1 /* Pods_Club1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D4A166A9E6799C153AD9C28 /* Pods_Club1.framework */; };
+		F317DAD5230B3EC500E1D642 /* ClubFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F317DAD3230B3EC500E1D642 /* ClubFeedTableViewCell.swift */; };
+		F317DAD6230B3EC500E1D642 /* ClubFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F317DAD4230B3EC500E1D642 /* ClubFeedTableViewCell.xib */; };
 		F350D9592308BEA50004D63A /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F350D9582308BEA50004D63A /* FavouritesViewController.swift */; };
 		F383328A230203C700BF1B95 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3833288230203C700BF1B95 /* SearchTableViewCell.swift */; };
 		F383328B230203C700BF1B95 /* SearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3833289230203C700BF1B95 /* SearchTableViewCell.xib */; };
@@ -46,6 +48,8 @@
 		14E7A2FE38E45994E2D46417 /* Pods-Club1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Club1.debug.xcconfig"; path = "Target Support Files/Pods-Club1/Pods-Club1.debug.xcconfig"; sourceTree = "<group>"; };
 		1D4A166A9E6799C153AD9C28 /* Pods_Club1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Club1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C76E1DA741157C482D4689CD /* Pods-Club1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Club1.release.xcconfig"; path = "Target Support Files/Pods-Club1/Pods-Club1.release.xcconfig"; sourceTree = "<group>"; };
+		F317DAD3230B3EC500E1D642 /* ClubFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubFeedTableViewCell.swift; sourceTree = "<group>"; };
+		F317DAD4230B3EC500E1D642 /* ClubFeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClubFeedTableViewCell.xib; sourceTree = "<group>"; };
 		F350D9582308BEA50004D63A /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
 		F3833288230203C700BF1B95 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		F3833289230203C700BF1B95 /* SearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchTableViewCell.xib; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				F38D4CEC2302030B00FE0C63 /* Main.storyboard */,
+				F317DAD3230B3EC500E1D642 /* ClubFeedTableViewCell.swift */,
+				F317DAD4230B3EC500E1D642 /* ClubFeedTableViewCell.xib */,
 				F3833288230203C700BF1B95 /* SearchTableViewCell.swift */,
 				F3833289230203C700BF1B95 /* SearchTableViewCell.xib */,
 				F38D4CEE2302033800FE0C63 /* LaunchScreen.storyboard */,
@@ -222,6 +228,7 @@
 				F3FA284E22FA6F7200DB59A9 /* GoogleService-Info.plist in Resources */,
 				F387929E22F8E7D00051C398 /* Assets.xcassets in Resources */,
 				F38D4CEF2302033800FE0C63 /* LaunchScreen.storyboard in Resources */,
+				F317DAD6230B3EC500E1D642 /* ClubFeedTableViewCell.xib in Resources */,
 				F38D4CED2302030B00FE0C63 /* Main.storyboard in Resources */,
 				F383328B230203C700BF1B95 /* SearchTableViewCell.xib in Resources */,
 			);
@@ -303,6 +310,7 @@
 				F3AACD242304A4D000C67BBF /* ClubViewController.swift in Sources */,
 				F350D9592308BEA50004D63A /* FavouritesViewController.swift in Sources */,
 				F3C0712B22FBAAE7009C69D9 /* Clubs.swift in Sources */,
+				F317DAD5230B3EC500E1D642 /* ClubFeedTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

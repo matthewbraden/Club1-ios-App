@@ -11,15 +11,14 @@ import Firebase
 import UberRides
 import CoreLocation
 
-class ClubViewController: UIViewController {
+class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var clubName: UILabel!
-    @IBOutlet weak var clubAddress: UILabel!
-    @IBOutlet weak var userCount: UILabel!
-    @IBOutlet weak var clubImage: UIImageView!
+    @IBOutlet weak var clubFeedTableView: UITableView!
     
     var club : Clubs = Clubs()
     var clubID : [DataSnapshot] = [DataSnapshot]()
+
+    var photo : [String] = ["Sup", "Clubs", "Ding dong"]
 
     var textPassedOverName : String?
     var latPassedOver : Double?
@@ -28,10 +27,28 @@ class ClubViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        clubFeedTableView.delegate = self
+        clubFeedTableView.dataSource = self
+       
+        clubFeedTableView.register(UINib(nibName: "ClubFeedTableViewCell", bundle: nil), forCellReuseIdentifier: "customFeedCell")
+        
+        clubFeedTableView.rowHeight = 350
+        
         navigationItem.title = textPassedOverName!
         retrieveClub()
     }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customFeedCell", for: indexPath) as! ClubFeedTableViewCell
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return photo.count
+    }
+    
+    //    MARK : - Retrieve clubs from database function
     func retrieveClub() {
         
         var clubDB : DatabaseReference?
@@ -58,9 +75,8 @@ class ClubViewController: UIViewController {
                     self.club.userPopulation = userCount as! Int
                     self.club.distance = 0.0
                     
-                    self.clubName.text = self.club.name
-                    self.clubAddress.text = self.club.address
-                    self.userCount.text = String(self.club.userPopulation)
+//                    self.clubAddress.text = self.club.address
+//                    self.userCount.text = String(self.club.userPopulation)
                     
                     // MARK : - Configure the uber api call
                     let button = RideRequestButton()
@@ -74,17 +90,12 @@ class ClubViewController: UIViewController {
                     builder.dropoffLocation = dropoffLocation
                     builder.dropoffAddress = self.club.address
                     builder.dropoffNickname = self.club.name
-            
-                    print(builder.pickupLocation!)
-                    print(builder.dropoffAddress!)
-                    print(builder.dropoffNickname!)
 
                     button.rideParameters = builder.build()
                     button.loadRideInformation()
 
-
-                    button.center = self.view.center
-                    self.view.addSubview(button)
+//                    button.center = self.view.center
+//                    self.view.addSubview(button)
                 }
             }
         })
