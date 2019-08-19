@@ -10,5 +10,6 @@ pod 'Firebase'
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
 pod 'SVProgressHUD'
+pod 'UberRides', '~> 0.9'
 
 end

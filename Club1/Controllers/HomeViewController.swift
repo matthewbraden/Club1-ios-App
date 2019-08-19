@@ -15,6 +15,8 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
     
     var coordinates : [Clubs] = [Clubs]()
     var clubName : String?
+    var latitude : Double?
+    var longitude : Double?
     
     @IBOutlet weak var mapView: MGLMapView!
 
@@ -66,10 +68,10 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         if location.horizontalAccuracy > 0 {
             locationManager.stopUpdatingLocation()
 
-            let latitude = location.coordinate.latitude
-            let longitude = location.coordinate.longitude
+            latitude = location.coordinate.latitude
+            longitude = location.coordinate.longitude
             
-            let mapCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            let mapCenter = CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!)
 
             mapView.setCenter(mapCenter, zoomLevel: 15, animated: false)
             view.addSubview(mapView)
@@ -137,15 +139,12 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         }
 
         return annotationView
-    }
-    
-    
-    
+    }    
     
     // MARK : - Setting up an information button for the annotation
     func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
         let button = UIButton(type: .detailDisclosure)
-        button.tintColor = .blue
+        button.tintColor = .black
         button.tag = 100
         return button
     }
@@ -169,12 +168,10 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         if segue.identifier == "goToClubPage" {
             let destinationVC = segue.destination as! ClubViewController
             destinationVC.textPassedOverName = clubName
+            destinationVC.latPassedOver = latitude
+            destinationVC.longPassedOver = longitude
         }
     }
-    
-    
-    
-    
     
     // MARK : - Allowd the mapview to show an annotation
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {

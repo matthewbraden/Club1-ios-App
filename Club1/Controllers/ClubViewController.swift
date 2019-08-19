@@ -8,6 +8,8 @@
 
 import UIKit
 import Firebase
+import UberRides
+import CoreLocation
 
 class ClubViewController: UIViewController {
     
@@ -16,11 +18,12 @@ class ClubViewController: UIViewController {
     @IBOutlet weak var userCount: UILabel!
     @IBOutlet weak var clubImage: UIImageView!
     
-    
     var club : Clubs = Clubs()
     var clubID : [DataSnapshot] = [DataSnapshot]()
 
     var textPassedOverName : String?
+    var latPassedOver : Double?
+    var longPassedOver : Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +31,7 @@ class ClubViewController: UIViewController {
         navigationItem.title = textPassedOverName!
         retrieveClub()
     }
- 
-
+    
     func retrieveClub() {
         
         var clubDB : DatabaseReference?
@@ -47,19 +49,42 @@ class ClubViewController: UIViewController {
                     let address = rest["Address"]!
                     let latitude = rest["Latitude"]!
                     let longitude = rest["Longitude"]!
-                    let name = rest["Name"]!
                     let userCount = rest["UserPopulation"]!
                     
                     self.club.address = address as! String
                     self.club.latitude = latitude as! Double
                     self.club.longitude = longitude as! Double
-                    self.club.name = name as! String
+                    self.club.name = self.textPassedOverName!
                     self.club.userPopulation = userCount as! Int
                     self.club.distance = 0.0
                     
                     self.clubName.text = self.club.name
                     self.clubAddress.text = self.club.address
                     self.userCount.text = String(self.club.userPopulation)
+                    
+                    // MARK : - Configure the uber api call
+                    let button = RideRequestButton()
+                    let ridesClient = RidesClient()
+
+                    let pickupLocation = CLLocation(latitude: self.latPassedOver!, longitude: self.longPassedOver!)
+                    let dropoffLocation = CLLocation(latitude: self.club.latitude, longitude: self.club.longitude)
+
+                    let builder = RideParametersBuilder()
+                    builder.pickupLocation = pickupLocation
+                    builder.dropoffLocation = dropoffLocation
+                    builder.dropoffAddress = self.club.address
+                    builder.dropoffNickname = self.club.name
+            
+                    print(builder.pickupLocation!)
+                    print(builder.dropoffAddress!)
+                    print(builder.dropoffNickname!)
+
+                    button.rideParameters = builder.build()
+                    button.loadRideInformation()
+
+
+                    button.center = self.view.center
+                    self.view.addSubview(button)
                 }
             }
         })

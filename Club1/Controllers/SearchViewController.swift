@@ -120,6 +120,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if segue.identifier == "goToClubPage" {
             let destinationVC = segue.destination as! ClubViewController
             destinationVC.textPassedOverName = clubName
+            destinationVC.latPassedOver = latitude
+            destinationVC.longPassedOver = longitude
         }
     }
     
