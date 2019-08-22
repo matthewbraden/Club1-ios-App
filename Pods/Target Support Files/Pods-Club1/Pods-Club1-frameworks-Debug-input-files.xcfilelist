@@ -1,6 +1,7 @@
 ${PODS_ROOT}/Target Support Files/Pods-Club1/Pods-Club1-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework
 ${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework
+${BUILT_PRODUCTS_DIR}/LyftSDK/LyftSDK.framework
 ${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/UberCore/UberCore.framework
 ${BUILT_PRODUCTS_DIR}/UberRides/UberRides.framework

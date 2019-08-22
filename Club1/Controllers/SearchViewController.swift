@@ -191,7 +191,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             club.name = name as! String
             club.userPopulation = userCount as! Int
             club.distance = self.distance(lat1: self.latitude, lon1: self.longitude, lat2: club.latitude, lon2: club.longitude)
-            print(club.key)
+           
             self.clubsArray.append(club)
             self.clubTableView.reloadData()
         }

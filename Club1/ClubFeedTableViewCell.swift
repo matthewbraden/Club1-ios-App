@@ -24,4 +24,9 @@ class ClubFeedTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func likeButton(_ sender: UIButton) {
+    }
+    
+    @IBAction func dislikeButton(_ sender: Any) {
+    }
 }

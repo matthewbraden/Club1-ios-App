@@ -190,6 +190,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
         databaseHandle = clubDB?.child("data/clubs").observe(.childAdded) {
             (snapshot) in
             let snapshotValue = snapshot.value as! Dictionary<String, Any>
+            let snapshotKey = snapshot.key
             let address = snapshotValue["Address"]!
             let latitude = snapshotValue["Latitude"]!
             let longitude = snapshotValue["Longitude"]!
@@ -197,6 +198,7 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
             let userCount = snapshotValue["UserPopulation"]!
             
             let club = Clubs()
+            club.key = snapshotKey as! String
             club.address = address as! String
             club.latitude = latitude as! Double
             club.longitude = longitude as! Double

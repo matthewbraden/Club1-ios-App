@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F1E16CC985166EB57EEE7CC1 /* Pods_Club1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D4A166A9E6799C153AD9C28 /* Pods_Club1.framework */; };
+		F30147A1230C92F400E00F93 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30147A0230C92F400E00F93 /* Photo.swift */; };
 		F317DAD5230B3EC500E1D642 /* ClubFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F317DAD3230B3EC500E1D642 /* ClubFeedTableViewCell.swift */; };
 		F317DAD6230B3EC500E1D642 /* ClubFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F317DAD4230B3EC500E1D642 /* ClubFeedTableViewCell.xib */; };
 		F350D9592308BEA50004D63A /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F350D9582308BEA50004D63A /* FavouritesViewController.swift */; };
@@ -48,6 +49,7 @@
 		14E7A2FE38E45994E2D46417 /* Pods-Club1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Club1.debug.xcconfig"; path = "Target Support Files/Pods-Club1/Pods-Club1.debug.xcconfig"; sourceTree = "<group>"; };
 		1D4A166A9E6799C153AD9C28 /* Pods_Club1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Club1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C76E1DA741157C482D4689CD /* Pods-Club1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Club1.release.xcconfig"; path = "Target Support Files/Pods-Club1/Pods-Club1.release.xcconfig"; sourceTree = "<group>"; };
+		F30147A0230C92F400E00F93 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		F317DAD3230B3EC500E1D642 /* ClubFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubFeedTableViewCell.swift; sourceTree = "<group>"; };
 		F317DAD4230B3EC500E1D642 /* ClubFeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClubFeedTableViewCell.xib; sourceTree = "<group>"; };
 		F350D9582308BEA50004D63A /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				F3C0712A22FBAAE7009C69D9 /* Clubs.swift */,
+				F30147A0230C92F400E00F93 /* Photo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F30147A1230C92F400E00F93 /* Photo.swift in Sources */,
 				F383328A230203C700BF1B95 /* SearchTableViewCell.swift in Sources */,
 				F38792B122F8F7A60051C398 /* HomeViewController.swift in Sources */,
 				F38792AD22F8F4760051C398 /* LoginViewController.swift in Sources */,
