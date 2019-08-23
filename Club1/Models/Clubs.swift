@@ -9,12 +9,11 @@
 import Foundation
 
 class Clubs {
-    var key : String = ""
-    var name : String = ""
-    var address : String = ""
+    var key : String?
+    var name : String?
+    var address : String?
     var latitude : Double = 0
     var longitude : Double = 0
     var userPopulation : Int = 0
     var distance : Double = 0
-    var photos : [Photo] = [Photo]()
 }

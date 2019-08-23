@@ -22,7 +22,6 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var clubUserCount: UILabel!
     
     var club : Clubs = Clubs()
-    var photo : Photo = Photo()
     var clubID : [DataSnapshot] = [DataSnapshot]()
     var ref: DatabaseReference!
 
@@ -30,7 +29,7 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var username : String?
     
-    var photoArray : [String] = ["Hi"]
+    var photosArray : [Photo] = [Photo]()
 
     var textPassedOverName : String?
     var latPassedOver : Double?
@@ -59,6 +58,8 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
         navigationItem.title = textPassedOverName!
         retrieveClub()
         retrieveUser()
+        retrieveImage()
+        
     }
     
     @IBAction func uberButton(_ sender: Any) {
@@ -69,19 +70,42 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customFeedCell", for: indexPath) as! ClubFeedTableViewCell
         
+        let photo = photosArray[indexPath.row]
+        cell.userSentPhoto.text = photo.sender
+        cell.totalScore.text = "100"
+        
+//      Access the photo from the photos url
+        if let photoURL = photo.imageURL {
+            let url = URL(string: photoURL)
+        
+            
+            URLSession.shared.dataTask(with: url!) {
+                (data, response, error) in
+                if error != nil {
+                    print("Download has hit an error with the url: \(error)")
+                    return
+                }
+                else {
+                    DispatchQueue.main.async {
+                        cell.imageTaken.image = UIImage(data: data!)
+                    }
+                }
+            }.resume()
+        }
+        
+        
         return cell
     }
     
     //    MARK : - Tableview datasource method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photoArray.count
+        return photosArray.count
     }
     
     //    MARK : - Retrieve clubs from database function
     func retrieveClub() {
         
         var clubDB : DatabaseReference?
-        var databaseHandle : DatabaseHandle?
         clubDB = Database.database().reference()
         
         clubDB?.child("data/clubs").observe(.value, with: {
@@ -91,12 +115,11 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 let rest = rest.value as! Dictionary<String, Any>
                 let name = rest["Name"]!
                 let objectName = self.textPassedOverName!
-                if objectName as! String == name as! String {
+                if objectName == name as! String {
                     let address = rest["Address"]!
                     let latitude = rest["Latitude"]!
                     let longitude = rest["Longitude"]!
                     let userCount = rest["UserPopulation"]!
-//                    let photos = rest["Photos"]!
                     
                     self.club.address = address as! String
                     self.club.latitude = latitude as! Double
@@ -104,10 +127,9 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     self.club.name = self.textPassedOverName!
                     self.club.userPopulation = userCount as! Int
                     self.club.distance = 0.0
-//                    self.club.photos = photos as! [Photo]
                     
                     self.clubCover.text = "Cover: $10-15"
-                    self.clubAddress.text = "Address: \(self.club.address)"
+                    self.clubAddress.text = "Address: \(self.club.address!)"
                     self.clubUserCount.text = "Users: \(self.club.userPopulation)"
                     
                     // MARK : - Configure the uber api call
@@ -135,6 +157,11 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
 }
 
 
+
+
+
+
+
 // MARK : - Camera usage code
 extension ClubViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -148,6 +175,7 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
         if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             image = userPickedImage
             
+            let photo = Photo()
             photo.clubName = textPassedOverName!
             photo.image = image
             photo.sender = username!
@@ -175,7 +203,8 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
     //    MARK : - Uploads an image to firebase storage and firebase realtime database
     func uploadImage(photo : Photo) {
         let ref = Database.database().reference()
-        let photoRef = ref.child("data/photos")
+        let photoRef = ref.child("data/photos/\(textPassedOverName!)")
+        print(textPassedOverName!)
         
         let imageName = UUID().uuidString
         let storageRef = Storage.storage().reference().child("club_images").child("\(photo.clubName)").child("\(imageName).png")
@@ -185,42 +214,71 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
             return
         }
         
-        var download : String?
-    
-        storageRef.downloadURL {
-            (url, error) in
-            if error != nil {
-                print("Error getting download url \(error)")
-                return
-            }
-            else {
-                download = url?.absoluteString
-            }
-        }
-        
+//        Closure for the putData function
         storageRef.putData(uploadData, metadata: nil) {
             (metadata, error) in
+            var download : String?
+            
             if error != nil {
                 print("Error when putting data \(error)")
                 return
             }
             else {
-                guard let downloadURL = download else {
-                    print("Error getting downlload url number \(error)")
-                    return
-                }
-                let photo = ["Name" : photo.clubName, "User" : photo.sender, "ImageUrl" : downloadURL] as [String : Any]
-                photoRef.updateChildValues(photo, withCompletionBlock: {
-                    (error, reference) in
+//                Closure in order to get the download url
+                storageRef.downloadURL {
+                    (url, error) in
                     if error != nil {
-                        print("Error sending to firebase realtime database")
+                        print("Error getting download url \(error)")
                         return
                     }
                     else {
-                        print(reference)
+                        download = url?.absoluteString
+                        
+//                        Metadata closure code must be in putData closure in order for the download url to work
+                        guard let downloadURL = download else {
+                            print("Error getting downlload url number \(error)")
+                            return
+                        }
+                        
+//                        Uploads the data to the firebase realtime database
+                        let photo = ["Name" : photo.clubName, "User" : photo.sender, "ImageUrl" : downloadURL] as [String : Any]
+                        photoRef.childByAutoId().setValue(photo, withCompletionBlock: {
+                            (error, reference) in
+                            if error != nil {
+                                print("Error sending to firebase realtime database")
+                                return
+                            }
+                            else {
+                                print("Photo has been added")
+                            }
+                        })
                     }
-                })
+                }
             }
+        }.resume()
+    }
+    
+    //    MARK : - Function for retrieving the images for a specific club from the database
+    func retrieveImage() {
+        var photoDB : DatabaseReference?
+        photoDB = Database.database().reference()
+        
+//        Searching for the photos with a specific club name
+        photoDB?.child("data/photos/\(textPassedOverName!)").observe(.childAdded) {
+            (snapshot) in
+            let snapshotValue = snapshot.value as! Dictionary<String, Any>
+            let name = snapshotValue["Name"]!
+            let sender = snapshotValue["User"]!
+            let imageURL = snapshotValue["ImageUrl"]!
+        
+            let photo = Photo()
+            photo.clubName = name as! String
+            photo.imageURL = imageURL as! String
+            photo.sender = sender as! String
+            
+            self.photosArray.append(photo)
+            self.clubFeedTableView.reloadData()
+            
         }
     }
 }

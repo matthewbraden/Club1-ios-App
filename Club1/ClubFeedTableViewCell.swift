@@ -12,6 +12,7 @@ class ClubFeedTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userSentPhoto: UILabel!
     @IBOutlet weak var imageTaken: UIImageView!
+    @IBOutlet weak var totalScore: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

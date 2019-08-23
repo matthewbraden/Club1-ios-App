@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class Photo {
-    var sender : String = ""
+    var sender : String?
     var dateCreated : Date?
     var image : UIImage?
-    var imageURL : String = ""
-    var clubName : String = ""
+    var imageURL : String?
+    var clubName : String?
 }

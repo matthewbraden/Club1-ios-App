@@ -19,11 +19,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="385.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Club" translatesAutoresizingMaskIntoConstraints="NO" id="wlz-z2-oJo">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wlz-z2-oJo">
                         <rect key="frame" x="0.0" y="26" width="375" height="324"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rl8-ZP-y3z">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rl8-ZP-y3z">
                         <rect key="frame" x="6" y="6" width="196" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -46,17 +46,22 @@
                             <action selector="dislikeButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Qhn-16-mdt"/>
                         </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+/-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4I-Lp-onO">
+                        <rect key="frame" x="114" y="360" width="32" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="imageTaken" destination="wlz-z2-oJo" id="PvW-mT-d86"/>
+                <outlet property="totalScore" destination="g4I-Lp-onO" id="KGb-OT-h9O"/>
                 <outlet property="userSentPhoto" destination="Rl8-ZP-y3z" id="QaC-DY-v9A"/>
             </connections>
             <point key="canvasLocation" x="136.95652173913044" y="194.19642857142856"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="Club" width="816" height="1088"/>
-    </resources>
 </document>

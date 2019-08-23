@@ -97,7 +97,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         else {
             let rounded = (clubsArray[indexPath.row].distance * 100).rounded() / 100
-            cell.clubDescription.text = "\(clubsArray[indexPath.row].name) is only \(rounded)km away"
+            cell.clubDescription.text = "\(clubsArray[indexPath.row].name!) is only \(rounded)km away"
         }
         
         return cell
@@ -212,7 +212,7 @@ extension SearchViewController : UISearchResultsUpdating {
     func filterContentForSearchText(_ searchText: String) {
         fileterdClubs = clubsArray.filter({
             ( club : Clubs) -> Bool in
-            return club.name.lowercased().contains(searchText.lowercased())
+            return club.name!.lowercased().contains(searchText.lowercased())
         })
         
         clubTableView.reloadData()
