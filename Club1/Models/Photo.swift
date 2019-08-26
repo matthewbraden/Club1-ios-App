@@ -15,4 +15,5 @@ class Photo {
     var image : UIImage?
     var imageURL : String?
     var clubName : String?
+    var likes : Int?
 }

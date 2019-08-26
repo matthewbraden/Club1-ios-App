@@ -21,8 +21,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    var latitude : Double = 0.0
-    var longitude : Double = 0.0
+    var latitude : Double?
+    var longitude : Double?
     var clubID : String?
     var clubName : String?
     
@@ -89,10 +89,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let userLat = latitude
         let userLong = longitude
         
-        clubsArray[indexPath.row].distance = distance(lat1: clubLat, lon1: clubLong, lat2: userLat, lon2: userLong)
+        clubsArray[indexPath.row].distance = distance(lat1: clubLat, lon1: clubLong, lat2: userLat ?? 0.0, lon2: userLong ?? 0.0)
 
         
-        if userLat == 0.0 || userLong == 0.0 {
+        if userLat == nil || userLong == nil {
             tableView.reloadData()
         }
         else {
@@ -113,6 +113,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         else {
             performSegue(withIdentifier: "goToClubPage", sender: self)
         }
+        clubTableView.deselectRow(at: indexPath, animated: true)
     }
     
     //    MARK : - Prepares the data for a segue
@@ -141,7 +142,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             latitude = Double(location.coordinate.latitude)
             longitude = Double(location.coordinate.longitude)
             for clubs in clubsArray {
-                clubs.distance = distance(lat1: latitude, lon1: longitude, lat2: clubs.latitude, lon2: clubs.longitude)
+                clubs.distance = distance(lat1: latitude ?? 0.0, lon1: longitude ?? 0.0, lat2: clubs.latitude, lon2: clubs.longitude)
             }
             sortArray()
         }
@@ -184,13 +185,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let userCount = snapshotValue["UserPopulation"]!
             
             let club = Clubs()
-            club.key = snapshotKey as! String
-            club.address = address as! String
+            club.key = snapshotKey as? String
+            club.address = address as? String
             club.latitude = latitude as! Double
             club.longitude = longitude as! Double
-            club.name = name as! String
+            club.name = name as? String
             club.userPopulation = userCount as! Int
-            club.distance = self.distance(lat1: self.latitude, lon1: self.longitude, lat2: club.latitude, lon2: club.longitude)
+            club.distance = self.distance(lat1: self.latitude ?? 0.0, lon1: self.longitude ?? 0.0, lat2: club.latitude, lon2: club.longitude)
            
             self.clubsArray.append(club)
             self.clubTableView.reloadData()

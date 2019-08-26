@@ -198,11 +198,11 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
             let userCount = snapshotValue["UserPopulation"]!
             
             let club = Clubs()
-            club.key = snapshotKey as! String
-            club.address = address as! String
+            club.key = snapshotKey 
+            club.address = address as? String
             club.latitude = latitude as! Double
             club.longitude = longitude as! Double
-            club.name = name as! String
+            club.name = name as? String
             club.userPopulation = userCount as! Int
             
             var pointAnnotations = [MGLPointAnnotation]()
@@ -210,8 +210,8 @@ class HomeViewController: UIViewController, MGLMapViewDelegate, CLLocationManage
             let point = MGLPointAnnotation()
             let coord = CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude)
             point.coordinate = coord
-            point.title = "\(club.name)"
-            point.subtitle = "\(club.userPopulation) users are at \(club.name)"
+            point.title = "\(club.name!)"
+            point.subtitle = "\(club.userPopulation) users are at \(club.name!)"
             pointAnnotations.append(point)
             
             self.mapView.addAnnotations(pointAnnotations)

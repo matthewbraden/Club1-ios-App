@@ -33,7 +33,9 @@
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sgk-Rn-dPj">
                         <rect key="frame" x="14" y="355" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Like"/>
+                        <state key="normal" title="Like">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </state>
                         <connections>
                             <action selector="likeButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="jmd-VA-he1"/>
                         </connections>
@@ -41,9 +43,11 @@
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NDK-Rk-CEu">
                         <rect key="frame" x="61" y="355" width="45" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" title="Dislike"/>
+                        <state key="normal" title="Dislike">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </state>
                         <connections>
-                            <action selector="dislikeButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Qhn-16-mdt"/>
+                            <action selector="dislikeButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="HkP-8x-cAV"/>
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="+/-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4I-Lp-onO">
@@ -57,7 +61,9 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="dislikeClick" destination="NDK-Rk-CEu" id="8fU-3v-aVx"/>
                 <outlet property="imageTaken" destination="wlz-z2-oJo" id="PvW-mT-d86"/>
+                <outlet property="likeClick" destination="Sgk-Rn-dPj" id="Ghh-QP-Qbs"/>
                 <outlet property="totalScore" destination="g4I-Lp-onO" id="KGb-OT-h9O"/>
                 <outlet property="userSentPhoto" destination="Rl8-ZP-y3z" id="QaC-DY-v9A"/>
             </connections>

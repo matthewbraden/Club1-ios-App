@@ -12,6 +12,7 @@ import FirebaseStorage
 import UberRides
 import CoreLocation
 import Vision
+import SVProgressHUD
 
 
 class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -24,9 +25,10 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var club : Clubs = Clubs()
     var clubID : [DataSnapshot] = [DataSnapshot]()
     var ref: DatabaseReference!
+    let imageCache = NSCache<AnyObject, AnyObject>()
 
     var image : UIImage?
-    
+    var score : Int?
     var username : String?
     
     var photosArray : [Photo] = [Photo]()
@@ -39,6 +41,7 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        SVProgressHUD.show()
         
         ref = Database.database().reference()
         
@@ -60,6 +63,7 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
         retrieveUser()
         retrieveImage()
         
+        SVProgressHUD.dismiss()
     }
     
     @IBAction func uberButton(_ sender: Any) {
@@ -68,38 +72,55 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     //    MARK : - Tableview delegate method
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "customFeedCell", for: indexPath) as! ClubFeedTableViewCell
         
         let photo = photosArray[indexPath.row]
         cell.userSentPhoto.text = photo.sender
-        cell.totalScore.text = "100"
+        cell.totalScore.text = String(photo.likes!)
+        cell.cellDelegate = self
+        cell.index = indexPath
         
 //      Access the photo from the photos url
         if let photoURL = photo.imageURL {
-            let url = URL(string: photoURL)
-        
-            
-            URLSession.shared.dataTask(with: url!) {
-                (data, response, error) in
-                if error != nil {
-                    print("Download has hit an error with the url: \(error)")
-                    return
+            cell.imageTaken.image = nil
+            if let cachedImage = imageCache.object(forKey: photoURL as AnyObject) as? UIImage {
+                cell.imageTaken.image = cachedImage
+            }
+            else {
+                let url = URL(string: photoURL)
+                
+                if let urlString = url {
+                    URLSession.shared.dataTask(with: urlString) {
+                        (data, response, error) in
+                        if error != nil {
+                            print("Download has hit an error with the url: \(error!)")
+                            return
+                        }
+                        else {
+                            DispatchQueue.main.async {
+                                if let image = UIImage(data: data!) {
+                                    self.imageCache.setObject(image, forKey: photoURL as AnyObject)
+                                    cell.imageTaken.image = image
+                                }
+                            }
+                        }
+                    }.resume()
                 }
-                else {
-                    DispatchQueue.main.async {
-                        cell.imageTaken.image = UIImage(data: data!)
-                    }
-                }
-            }.resume()
+            }
         }
-        
-        
+        SVProgressHUD.dismiss()
         return cell
     }
     
     //    MARK : - Tableview datasource method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosArray.count
+    }
+    
+    //    MARK : - Tableview did select row method
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        clubFeedTableView.deselectRow(at: indexPath, animated: true)
     }
     
     //    MARK : - Retrieve clubs from database function
@@ -121,7 +142,7 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     let longitude = rest["Longitude"]!
                     let userCount = rest["UserPopulation"]!
                     
-                    self.club.address = address as! String
+                    self.club.address = address as? String
                     self.club.latitude = latitude as! Double
                     self.club.longitude = longitude as! Double
                     self.club.name = self.textPassedOverName!
@@ -157,9 +178,12 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
 }
 
 
-
-
-
+// MARK : - Upvote system code
+extension ClubViewController : ClubFeedTableView {
+    func onClickCell(index: Int) {
+        
+    }
+}
 
 
 // MARK : - Camera usage code
@@ -179,16 +203,16 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
             photo.clubName = textPassedOverName!
             photo.image = image
             photo.sender = username!
+            photo.likes = 0
             uploadImage(photo: photo)
         }
-        
+        SVProgressHUD.show()
         imagePicker.dismiss(animated: true, completion: nil)
     }
     
     //    MARK : - Saves the current users username
     func retrieveUser() {
         var userDB : DatabaseReference?
-        var databaseHandle : DatabaseHandle?
         userDB = Database.database().reference()
         
         let uid = Auth.auth().currentUser?.uid
@@ -196,18 +220,19 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
             (snapshot) in
             let snapshotValue = snapshot.value as! Dictionary<String, Any>
             let userID = snapshotValue["Username"]!
-            self.username = userID as! String
+            self.username = userID as? String
         })
     }
     
     //    MARK : - Uploads an image to firebase storage and firebase realtime database
     func uploadImage(photo : Photo) {
+        
         let ref = Database.database().reference()
         let photoRef = ref.child("data/photos/\(textPassedOverName!)")
         print(textPassedOverName!)
         
         let imageName = UUID().uuidString
-        let storageRef = Storage.storage().reference().child("club_images").child("\(photo.clubName)").child("\(imageName).png")
+        let storageRef = Storage.storage().reference().child("club_images").child("\(photo.clubName!)").child("\(imageName).png")
         
         guard let uploadData = photo.image?.jpegData(compressionQuality: 0.75) else {
             print("upload data cannot be formed")
@@ -220,7 +245,7 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
             var download : String?
             
             if error != nil {
-                print("Error when putting data \(error)")
+                print("Error when putting data \(error!)")
                 return
             }
             else {
@@ -228,7 +253,7 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
                 storageRef.downloadURL {
                     (url, error) in
                     if error != nil {
-                        print("Error getting download url \(error)")
+                        print("Error getting download url \(error!)")
                         return
                     }
                     else {
@@ -236,12 +261,12 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
                         
 //                        Metadata closure code must be in putData closure in order for the download url to work
                         guard let downloadURL = download else {
-                            print("Error getting downlload url number \(error)")
+                            print("Error getting downlload url number \(error!)")
                             return
                         }
                         
 //                        Uploads the data to the firebase realtime database
-                        let photo = ["Name" : photo.clubName, "User" : photo.sender, "ImageUrl" : downloadURL] as [String : Any]
+                        let photo = ["Name" : photo.clubName!, "User" : photo.sender!, "ImageUrl" : downloadURL, "PhotoScore" : photo.likes!] as [String : Any]
                         photoRef.childByAutoId().setValue(photo, withCompletionBlock: {
                             (error, reference) in
                             if error != nil {
@@ -270,15 +295,16 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
             let name = snapshotValue["Name"]!
             let sender = snapshotValue["User"]!
             let imageURL = snapshotValue["ImageUrl"]!
+            let likes = snapshotValue["PhotoScore"]!
         
             let photo = Photo()
-            photo.clubName = name as! String
-            photo.imageURL = imageURL as! String
-            photo.sender = sender as! String
+            photo.clubName = name as? String
+            photo.imageURL = imageURL as? String
+            photo.sender = sender as? String
+            photo.likes = likes as? Int
             
             self.photosArray.append(photo)
             self.clubFeedTableView.reloadData()
-            
         }
     }
 }

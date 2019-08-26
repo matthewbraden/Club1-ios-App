@@ -8,11 +8,26 @@
 
 import UIKit
 
+
+protocol ClubFeedTableView {
+    func onClickCell(index : Int)
+}
+
 class ClubFeedTableViewCell: UITableViewCell {
 
     @IBOutlet weak var userSentPhoto: UILabel!
     @IBOutlet weak var imageTaken: UIImageView!
     @IBOutlet weak var totalScore: UILabel!
+    @IBOutlet weak var likeClick: UIButton!
+    @IBOutlet weak var dislikeClick: UIButton!
+    
+    var cellDelegate : ClubFeedTableView?
+    var index : IndexPath?
+    
+    var count : Int = 0
+    
+    var userClickedLike : Bool = false
+    var userClickedDislike : Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,8 +41,51 @@ class ClubFeedTableViewCell: UITableViewCell {
     }
     
     @IBAction func likeButton(_ sender: UIButton) {
+        cellDelegate?.onClickCell(index: index!.row)
+        if !userClickedLike && userClickedDislike{
+            count += 2
+            totalScore.text = String(count)
+            userClickedLike = true
+            sender.setTitleColor(UIColor.blue, for: UIControl.State.normal)
+            dislikeClick.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        }
+        else if !userClickedLike && !userClickedDislike {
+            count += 1
+            totalScore.text = String(count)
+            userClickedLike = true
+            sender.setTitleColor(UIColor.blue, for: UIControl.State.normal)
+        }
+        else if userClickedLike {
+            count -= 1
+            totalScore.text = String(count)
+            userClickedLike = false
+            sender.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        }
+        userClickedDislike = false
     }
     
-    @IBAction func dislikeButton(_ sender: Any) {
+    @IBAction func dislikeButton(_ sender: UIButton) {
+        cellDelegate?.onClickCell(index: index!.row)
+        if !userClickedDislike && userClickedLike {
+            count -= 2
+            totalScore.text = String(count)
+            userClickedDislike = true
+            sender.setTitleColor(UIColor.blue, for: UIControl.State.normal)
+            likeClick.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        }
+        else if !userClickedDislike && !userClickedLike {
+            count -= 1
+            totalScore.text = String(count)
+            userClickedDislike = true
+            sender.setTitleColor(UIColor.blue, for: UIControl.State.normal)
+
+        }
+        else if userClickedDislike {
+            count += 1
+            totalScore.text = String(count)
+            userClickedDislike = false
+            sender.setTitleColor(UIColor.black, for: UIControl.State.normal)
+        }
+        userClickedLike = false
     }
 }
