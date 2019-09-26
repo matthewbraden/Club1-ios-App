@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class Photo {
+    var key : String?
     var sender : String?
     var dateCreated : Date?
     var image : UIImage?

@@ -53,7 +53,7 @@ class ClubViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         clubFeedTableView.rowHeight = 386
         
-        // Setup for the imagePicker
+        // Setup for the imagePicker 
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = false
@@ -185,7 +185,6 @@ extension ClubViewController : ClubFeedTableView {
     }
 }
 
-
 // MARK : - Camera usage code
 extension ClubViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -292,6 +291,7 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
         photoDB?.child("data/photos/\(textPassedOverName!)").observe(.childAdded) {
             (snapshot) in
             let snapshotValue = snapshot.value as! Dictionary<String, Any>
+            let key = snapshot.key
             let name = snapshotValue["Name"]!
             let sender = snapshotValue["User"]!
             let imageURL = snapshotValue["ImageUrl"]!
@@ -302,9 +302,26 @@ extension ClubViewController : UIImagePickerControllerDelegate, UINavigationCont
             photo.imageURL = imageURL as? String
             photo.sender = sender as? String
             photo.likes = likes as? Int
+            photo.key = key
             
             self.photosArray.append(photo)
             self.clubFeedTableView.reloadData()
         }
+    }
+    
+    func updateLikes(photo : Photo) {
+        var photoDB : DatabaseReference?
+        photoDB = Database.database().reference()
+        let likesUpdate = ["PhotoScore" : photo.likes!]
+        
+        photoDB?.child("data/photos/\(photo.clubName!)/\(photo.key!)").updateChildValues(likesUpdate, withCompletionBlock: {
+            (error, reference) in
+            if error != nil {
+                print("Error made when updating like value \(error!)")
+            }
+            else {
+                print(reference)
+            }
+        })
     }
 }

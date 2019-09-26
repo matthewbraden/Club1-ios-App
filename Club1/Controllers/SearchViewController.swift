@@ -185,7 +185,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let userCount = snapshotValue["UserPopulation"]!
             
             let club = Clubs()
-            club.key = snapshotKey as? String
+            club.key = snapshotKey
             club.address = address as? String
             club.latitude = latitude as! Double
             club.longitude = longitude as! Double

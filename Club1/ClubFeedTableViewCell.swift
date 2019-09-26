@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 protocol ClubFeedTableView {
     func onClickCell(index : Int)
 }
@@ -24,14 +23,13 @@ class ClubFeedTableViewCell: UITableViewCell {
     var cellDelegate : ClubFeedTableView?
     var index : IndexPath?
     
-    var count : Int = 0
-    
     var userClickedLike : Bool = false
     var userClickedDislike : Bool = false
     
+    var count : Int = 0
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -78,7 +76,7 @@ class ClubFeedTableViewCell: UITableViewCell {
             totalScore.text = String(count)
             userClickedDislike = true
             sender.setTitleColor(UIColor.blue, for: UIControl.State.normal)
-
+            
         }
         else if userClickedDislike {
             count += 1
